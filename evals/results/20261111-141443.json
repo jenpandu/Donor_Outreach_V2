@@ -1,0 +1,76 @@
+[
+  {
+    "id": "en-complaint-double-charge",
+    "text": "I was charged twice for my donation last week. Please fix this.",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "complaint"
+      ],
+      "kb_doc": null
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.9968523383140564,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "complaint",
+      "sentiment": "negative",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md"
+      ],
+      "draft": "Hi Sam,\n\nThanks for letting us know about the duplicate charge. I'm sorry for the inconvenience this has caused.\n\nTo help us look into this, please reply to this email with the exact date and amount of the charges. Our Donor Care team will review your request within 2 business days. If a duplicate charge is confirmed, the extra amount will be refunded in full to your original payment method.\n\nThank you for your support."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": null
+    },
+    "seconds": 4.7,
+    "notes": "Should apologize once and give a concrete next step."
+  },
+  {
+    "id": "spanglish-cancel-monthly",
+    "text": "Hi, quiero cancelar mi monthly donation please",
+    "expected": {
+      "lang": [
+        "es",
+        "en"
+      ],
+      "intents": [
+        "question",
+        "complaint",
+        "unsubscribe"
+      ],
+      "kb_doc": "faq"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.7668598890304565,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "unsubscribe",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md"
+      ],
+      "draft": "Hi María,\n\nThank you for your message. Our team will process your request to cancel your monthly donation. A team member will follow up with you to confirm once this has been completed."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 3.0,
+    "notes": "Code-switching; detected language may be es or en. Cancelling a recurring gift is not the same as unsubscribing from email."
+  }
+]

@@ -1,0 +1,22 @@
+[project]
+name = "donor-outreach-agent"
+version = "0.1.0"
+description = "LangGraph agent that triages donor replies and drafts responses"
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.35",          # Translate, Comprehend (includes botocore)
+    "langchain-aws>=0.2",   # ChatBedrockConverse
+    "langchain-core>=0.3",  # SystemMessage, HumanMessage
+    "langgraph>=0.2",       # StateGraph (for the graph file)
+    "pydantic>=2",          # Classification model in prompt.py
+]
+ 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+]
+ 
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+ 

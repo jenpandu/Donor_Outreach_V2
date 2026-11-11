@@ -18,6 +18,9 @@ dependencies = [
     "python-dotenv>=1.0",
     "structlog>=24.1",
     "gunicorn>=22.0",
+    "langchain-aws>=0.2",   # ChatBedrockConverse
+    "langchain-core>=0.3",  # SystemMessage, HumanMessage
+    "langgraph>=0.2", 
 ]
 
 [project.optional-dependencies]
@@ -34,3 +37,11 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["donor_outreach*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [
+    "src",                              # for: from donor_outreach.config import ...
+    "src/donor_outreach/donor_agent",   # for: import nodes, state, prompt, graph
+    "tests",                            # for: from fakes import ...
+]

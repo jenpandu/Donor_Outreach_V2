@@ -29,6 +29,10 @@ src/donor_outreach/clients/translate/service.py
 src/donor_outreach/db_models/__init__.py
 src/donor_outreach/db_models/campaign.py
 src/donor_outreach/db_models/message.py
+src/donor_outreach/donor_agent/graph.py
+src/donor_outreach/donor_agent/nodes.py
+src/donor_outreach/donor_agent/prompt.py
+src/donor_outreach/donor_agent/state.py
 src/donor_outreach/schemas/__init__.py
 src/donor_outreach/schemas/campaign.py
 src/donor_outreach/schemas/message.py

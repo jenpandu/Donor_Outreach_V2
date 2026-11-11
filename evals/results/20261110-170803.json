@@ -1,0 +1,670 @@
+[
+  {
+    "id": "es-receipt-q",
+    "text": "¿Cuándo recibiré mi recibo de impuestos?",
+    "expected": {
+      "lang": "es",
+      "intents": [
+        "question"
+      ],
+      "kb_doc": "receipt"
+    },
+    "got": {
+      "lang": "es",
+      "confidence": 0.9998456835746765,
+      "lang_source": "comprehend",
+      "translation": "When will I receive my tax receipt?",
+      "intent": "question",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md"
+      ],
+      "draft": "Estimada María,\n\nGracias por tu donación. Los recibos se envían por correo electrónico dentro de las 48 horas posteriores a un regalo en línea. Para cheques o donaciones por correo, el recibo se envía dentro de los 10 días hábiles de recibirlos.\n\nSi hiciste una donación recurrente mensual, recibirás un recibo por cada cargo y un resumen de fin de año. Todos los donantes reciben un resumen anual de sus donaciones antes del 31 de enero del año siguiente.\n\nSi no has recibido tu recibo, por favor avísanos y podemos volver a enviártelo en 2 días hábiles.\n\nAtentamente,\nAlianza de Lectura Lanternwood"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 5.2,
+    "notes": "Should state receipt timing from policy (online vs. check)."
+  },
+  {
+    "id": "es-thanks-short",
+    "text": "Gracias!",
+    "expected": {
+      "lang": "es",
+      "intents": [
+        "thanks"
+      ],
+      "kb_doc": null
+    },
+    "got": {
+      "lang": "es",
+      "confidence": 0.8431848287582397,
+      "lang_source": "comprehend",
+      "translation": "Thank you!",
+      "intent": "thanks",
+      "sentiment": "positive",
+      "kb_calls": 0,
+      "kb_sources": [],
+      "draft": "¡Gracias a ti, María! Tu apoyo significa mucho para nosotros y nos llena de motivación para seguir adelante con nuestro trabajo."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 1.8,
+    "notes": "Short message; KB must be skipped."
+  },
+  {
+    "id": "fr-unsub-polite",
+    "text": "Merci, mais veuillez me retirer de votre liste.",
+    "expected": {
+      "lang": "fr",
+      "intents": [
+        "unsubscribe"
+      ],
+      "kb_doc": "unsubscribe"
+    },
+    "got": {
+      "lang": "fr",
+      "confidence": 0.9986788034439087,
+      "lang_source": "comprehend",
+      "translation": "Thanks, but please remove me from your list.",
+      "intent": "unsubscribe",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md"
+      ],
+      "draft": "Chère Claire,\n\nVotre demande a bien été prise en compte. Vous serez retiré(e) de toutes nos listes de diffusion d'appels aux dons dans un délai de 5 jours ouvrés.\n\nNous vous remercions sincèrement pour votre soutien passé."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 3.0,
+    "notes": "Starts with thanks but intent is unsubscribe. Should not ask why."
+  },
+  {
+    "id": "en-pledge-monthly",
+    "text": "Count me in for $50 a month starting in December.",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "pledge"
+      ],
+      "kb_doc": "pledge"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.9966437220573425,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "pledge",
+      "sentiment": "positive",
+      "kb_calls": 1,
+      "kb_sources": [],
+      "draft": "Hi Sam,\n\nThank you so much for your generous pledge of $50 per month, starting in December. We're truly grateful for your support.\n\nTo complete your pledge, you'll receive a follow-up email from us shortly with a secure link to set up your monthly donation. We'll be in touch soon.\n\nThank you for joining our community of supporters."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 6.4,
+    "notes": "Same language as campaign; translation should be skipped."
+  },
+  {
+    "id": "en-complaint-double-charge",
+    "text": "I was charged twice for my donation last week. Please fix this.",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "complaint"
+      ],
+      "kb_doc": "tone"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.9968523383140564,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "complaint",
+      "sentiment": "negative",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md"
+      ],
+      "draft": "Dear Sam,\n\nThank you for reaching out. I'm sorry for the error with your donation. We've assigned your concern to our Donor Care Lead, who will investigate the duplicate charge. If confirmed, we will issue a full refund within 5 business days. You can contact our Donor Care Lead, Alex Chen, directly at alex@nonprofit.org with any questions.\n\nSincerely,\nThe Team at [Nonprofit Name]"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": false,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 3.5,
+    "notes": "Should apologize once and give a concrete next step."
+  },
+  {
+    "id": "en-tax-deductible",
+    "text": "Is my donation tax deductible?",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "question"
+      ],
+      "kb_doc": "receipt"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.9953377842903137,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "question",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md"
+      ],
+      "draft": "Hi Sam,\n\nYes, your donation is tax-deductible. Lanternwood Reading Alliance is a registered 501(c)(3) public charity. Gifts are deductible to the extent allowed by law.\n\nIf you received something in return for your gift, only the amount above that item's value is deductible, and your receipt will show that value.\n\nPlease let us know if you have any other questions.\n\nWarmly,\nLanternwood Reading Alliance"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 3.2,
+    "notes": "Must not give tax advice beyond what the policy doc says."
+  },
+  {
+    "id": "es-pledge-plus-question",
+    "text": "Quiero donar 100 dólares para los libros de los niños. ¿Cómo lo hago?",
+    "expected": {
+      "lang": "es",
+      "intents": [
+        "pledge",
+        "question"
+      ],
+      "kb_doc": "pledge"
+    },
+    "got": {
+      "lang": "es",
+      "confidence": 0.9902466535568237,
+      "lang_source": "comprehend",
+      "translation": "I want to donate $100 for children's books. How do I do it?",
+      "intent": "question",
+      "sentiment": "positive",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/campaign-spring-story-drive.md"
+      ],
+      "draft": "Hola María,\n\n¡Muchas gracias por tu generosa intención de donar $100 para los libros de los niños! Para hacer tu donación, puedes dar en línea y seleccionar \"Book Bundles\" en el menú de designación. Tu donación se destinará a nuestro programa de Book Bundles, que envía paquetes de libros a los hogares de los niños. Cada $20 envía un paquete con tres libros nuevos.\n\nSi tienes alguna dificultad con el proceso en línea, un miembro de nuestro equipo se pondrá en contacto contigo para ayudarte.\n\nCon gratitud,\nEl equipo de Lanternwood"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 3.3,
+    "notes": "Mixed intent; should explain how to give."
+  },
+  {
+    "id": "es-complaint-no-accents",
+    "text": "no he recibido mi recibo y ya pasaron 3 semanas",
+    "expected": {
+      "lang": "es",
+      "intents": [
+        "complaint",
+        "question"
+      ],
+      "kb_doc": "receipt"
+    },
+    "got": {
+      "lang": "es",
+      "confidence": 0.9884247779846191,
+      "lang_source": "comprehend",
+      "translation": "I haven't received my receipt and it's been 3 weeks",
+      "intent": "question",
+      "sentiment": "negative",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md"
+      ],
+      "draft": "Hola María,\n\nLamentamos la demora con tu recibo. Según nuestra política, los recibos por donaciones en línea se envían por correo electrónico dentro de las 48 horas posteriores al aporte. Si tu donación fue por correo, el plazo es de 10 días hábiles desde que la recibimos.\n\nPara resolverlo rápidamente, por favor contacta a nuestro equipo de Atención al Donante. Ellos pueden reenviar cualquier recibo en un plazo de 2 días hábiles.\n\nAgradecemos tu apoyo y paciencia.\n\nAtentamente,\nAlianza Lanternwood para la Lectura"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 4.3,
+    "notes": "No accents or capitals; overdue receipt."
+  },
+  {
+    "id": "fr-check-question",
+    "text": "Est-ce que je peux faire un don par chèque ?",
+    "expected": {
+      "lang": "fr",
+      "intents": [
+        "question"
+      ],
+      "kb_doc": "pledge"
+    },
+    "got": {
+      "lang": "fr",
+      "confidence": 0.9994708895683289,
+      "lang_source": "comprehend",
+      "translation": "Can I donate by check?",
+      "intent": "question",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/pledge-fulfillment.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md"
+      ],
+      "draft": "Chère Claire,\n\nOui, vous pouvez faire un don par chèque. Veuillez libeller le chèque à l'ordre de \"Lanternwood Reading Alliance\" et indiquer \"Don\" dans la ligne de mémo.\n\nNous vous enverrons un reçu dans les 10 jours ouvrables suivant la réception de votre chèque.\n\nMerci beaucoup pour votre générosité.\n\nCordialement,\nL'équipe de Lanternwood Reading Alliance"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 5.8,
+    "notes": "Payment-method question."
+  },
+  {
+    "id": "fr-thanks-long",
+    "text": "Merci beaucoup pour la belle lettre, mes enfants adorent la bibliothèque !",
+    "expected": {
+      "lang": "fr",
+      "intents": [
+        "thanks"
+      ],
+      "kb_doc": null
+    },
+    "got": {
+      "lang": "fr",
+      "confidence": 0.9714484214782715,
+      "lang_source": "comprehend",
+      "translation": "Thank you so much for the nice letter, my kids love the library!",
+      "intent": "thanks",
+      "sentiment": "positive",
+      "kb_calls": 0,
+      "kb_sources": [],
+      "draft": "Chère Claire,\n\nMerci pour votre message si gentil. Nous sommes ravis d'apprendre que vos enfants aiment tant la bibliothèque."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 1.6,
+    "notes": "Longer thank-you; KB skipped."
+  },
+  {
+    "id": "zh-unsub",
+    "text": "请不要再给我发邮件了。",
+    "expected": {
+      "lang": "zh",
+      "intents": [
+        "unsubscribe"
+      ],
+      "kb_doc": "unsubscribe"
+    },
+    "got": {
+      "lang": "zh",
+      "confidence": 1.0,
+      "lang_source": "comprehend",
+      "translation": "Please don't email me again.",
+      "intent": "unsubscribe",
+      "sentiment": "negative",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md"
+      ],
+      "draft": "陈先生，您好。\n\n我们已收到您停止接收邮件的请求。您的邮箱将从所有筹款邮件列表中移除，此操作将在5个工作日内完成。\n\n感谢您过去对我们的支持。"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 2.8,
+    "notes": "Non-Latin script; reply must be in Chinese."
+  },
+  {
+    "id": "zh-receipt-q",
+    "text": "我的捐款收据什么时候寄出？",
+    "expected": {
+      "lang": "zh",
+      "intents": [
+        "question"
+      ],
+      "kb_doc": "receipt"
+    },
+    "got": {
+      "lang": "zh",
+      "confidence": 1.0,
+      "lang_source": "comprehend",
+      "translation": "When will my donation receipt be sent out?",
+      "intent": "question",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/gift-receipt-policy.md"
+      ],
+      "draft": "陈先生，您好！\n\n感谢您的捐款。根据我们的政策，在线捐款的电子收据会在捐款后48小时内发出。如果您是通过支票或邮寄方式捐款，我们会在收到款项后的10个工作日内寄出纸质收据。\n\n如果您尚未收到，或者需要重新发送，请随时联系我们的捐赠者关怀部门，我们很乐意为您处理。"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 3.2,
+    "notes": "Non-Latin script receipt question."
+  },
+  {
+    "id": "en-unsub-indirect",
+    "text": "Love what you do but I'm getting way too many emails. Can you take me off?",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "unsubscribe"
+      ],
+      "kb_doc": "unsubscribe"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.998440682888031,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "unsubscribe",
+      "sentiment": "mixed",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md"
+      ],
+      "draft": "Hi Sam, thanks for letting us know. We'll take you off our email list right away. We appreciate your past support."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 7.1,
+    "notes": "Positive tone, but the request is to unsubscribe."
+  },
+  {
+    "id": "en-thanks-slang",
+    "text": "thx!!",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "thanks"
+      ],
+      "kb_doc": null
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.704105794429779,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "thanks",
+      "sentiment": "positive",
+      "kb_calls": 0,
+      "kb_sources": [],
+      "draft": "Thank you, Sam! We're so grateful for your support."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 1.5,
+    "notes": "Very short; language detection may be low confidence and fall back to campaign default."
+  },
+  {
+    "id": "en-not-in-kb",
+    "text": "Do you have volunteer opportunities on weekends?",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "question"
+      ],
+      "kb_doc": null
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.9977899193763733,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "question",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/campaign-summer-reading-bridge.md"
+      ],
+      "draft": "Hi Sam,\n\nYes, we do have volunteer opportunities on weekends. Our volunteer tutors attend one 3-hour training session and commit to at least four weeks of tutoring. If you live near one of our program sites, you can help provide small-group tutoring for children this summer.\n\nA staff member will be in touch with more details about the application process.\n\nBest,\nLanternwood Reading Alliance"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": null
+    },
+    "seconds": 5.7,
+    "notes": "Not covered by the KB; draft must not invent a policy and should say staff will follow up."
+  },
+  {
+    "id": "spanglish-cancel-monthly",
+    "text": "Hi, quiero cancelar mi monthly donation please",
+    "expected": {
+      "lang": [
+        "es",
+        "en"
+      ],
+      "intents": [
+        "question",
+        "complaint",
+        "unsubscribe"
+      ],
+      "kb_doc": "pledge"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.7668598890304565,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "unsubscribe",
+      "sentiment": "neutral",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/faq.md"
+      ],
+      "draft": "Hi María,\n\nWe have processed your request to cancel your monthly donation. No further charges will be made. Thank you for your past support of Lanternwood Reading Alliance."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 4.2,
+    "notes": "Code-switching; detected language may be es or en. Cancelling a recurring gift is not the same as unsubscribing from email."
+  },
+  {
+    "id": "es-complaint-calls",
+    "text": "Es la tercera vez que me llaman pidiendo dinero. Ya basta.",
+    "expected": {
+      "lang": "es",
+      "intents": [
+        "complaint",
+        "unsubscribe"
+      ],
+      "kb_doc": "tone"
+    },
+    "got": {
+      "lang": "es",
+      "confidence": 0.9944349527359009,
+      "lang_source": "comprehend",
+      "translation": "This is the third time they've called me asking for money. That's enough.",
+      "intent": "complaint",
+      "sentiment": "negative",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md",
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md"
+      ],
+      "draft": "Estimada María,\n\nLamentamos sinceramente que hayas recibido llamadas no deseadas. Hemos registrado tu queja y nuestro equipo de atención al donante la revisará para asegurarse de que tus preferencias sean respetadas.\n\nPara evitar futuros contactos, podemos suspender todas nuestras comunicaciones de recaudación de fondos. También ofrecemos opciones para recibir menos mensajes, como solo boletines impresos o únicamente recibos de donación.\n\n¿Podrías indicarnos qué prefieres? Puedes responder a este correo o contactar a nuestra responsable, Ana García, en donorcare@lanternwood.org.\n\nGracias por comunicarnos tu experiencia."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 4.6,
+    "notes": "Frustrated, negative sentiment."
+  },
+  {
+    "id": "emoji-only",
+    "text": "🙏❤️",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "thanks"
+      ],
+      "kb_doc": null
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.009999999776482582,
+      "lang_source": "fallback_low_conf",
+      "translation": null,
+      "intent": "thanks",
+      "sentiment": "positive",
+      "kb_calls": 0,
+      "kb_sources": [],
+      "draft": "Thank you for your kind message, Sam. We truly appreciate your support."
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 1.6,
+    "notes": "No words; detection should fall back to campaign default without crashing."
+  },
+  {
+    "id": "fr-pledge-renew",
+    "text": "Je souhaite renouveler mon don de 200 € cette année.",
+    "expected": {
+      "lang": "fr",
+      "intents": [
+        "pledge"
+      ],
+      "kb_doc": "pledge"
+    },
+    "got": {
+      "lang": "fr",
+      "confidence": 0.9974193572998047,
+      "lang_source": "comprehend",
+      "translation": "I want to renew my €200 donation this year.",
+      "intent": "pledge",
+      "sentiment": "positive",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/pledge-fulfillment.md"
+      ],
+      "draft": "Chère Claire,\n\nMerci chaleureusement pour votre engagement à renouveler votre don de 200 €. Nous sommes très touchés par votre soutien continu.\n\nConformément à notre politique, nous vous enverrons une confirmation de votre promesse de don dans les trois jours ouvrables. Ce courriel détaillera le montant total et les options d'échéancier de paiement (sur un maximum de 3 ans). Vous pourrez ensuite effectuer votre don en ligne, par chèque ou par virement.\n\nAvec toute notre gratitude,\nL'équipe de Lanternwood Reading Alliance"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": true
+    },
+    "seconds": 3.2,
+    "notes": "Euro amount; reply should not convert currency."
+  },
+  {
+    "id": "en-sarcasm",
+    "text": "Great, another fundraising email. Exactly what I needed today.",
+    "expected": {
+      "lang": "en",
+      "intents": [
+        "complaint",
+        "unsubscribe"
+      ],
+      "kb_doc": "tone"
+    },
+    "got": {
+      "lang": "en",
+      "confidence": 0.9944571852684021,
+      "lang_source": "comprehend",
+      "translation": null,
+      "intent": "complaint",
+      "sentiment": "negative",
+      "kb_calls": 1,
+      "kb_sources": [
+        "https://jp-donor-outreach-bucket.s3.amazonaws.com/kb-docs-2/communication-preferences.md"
+      ],
+      "draft": "Hi Sam,\n\nThank you for your feedback, and I'm sorry our email added to your day. I've taken this as a request to stop fundraising emails, and I will process your unsubscribe right away. You should receive a confirmation shortly.\n\nIf you'd prefer a different level of contact, such as fewer emails or switching to mail only, please let me know.\n\nBest,\n\nLanternwood Reading Alliance"
+    },
+    "checks": {
+      "lang": true,
+      "intent": true,
+      "draft": true,
+      "draft_lang": true,
+      "kb": false
+    },
+    "seconds": 2.6,
+    "notes": "Sarcasm; sentiment should be negative, not positive."
+  }
+]

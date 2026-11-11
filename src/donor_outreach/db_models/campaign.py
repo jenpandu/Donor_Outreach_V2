@@ -30,7 +30,7 @@ class Campaign(db.Model):
     name: Mapped[str] = mapped_column(String(20),nullable=False)
     goal_amt: Mapped[float] = mapped_column(Numeric(12,2), nullable=False)
     description: Mapped[str] = mapped_column(String(100), nullable=False)
-    def_lang: Mapped[str] = mapped_column(String(5), nullable=False)
+    def_lang: Mapped[str] = mapped_column(String(10), nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

@@ -5,7 +5,7 @@ class CampaignCreate(BaseModel):
     name: str = Field(min_length=1, max_length=20)
     goal_amt: float = Field(gt=0)
     description: str = Field(min_length=1, max_length=100)
-    def_lang: str = Field(min_length=2, max_length=20)
+    def_lang: str = Field(min_length=2, max_length=10)
 
 class CampaignUpdate(BaseModel):
     """Fields allowed when editing a campaign — all optional (partial update)."""

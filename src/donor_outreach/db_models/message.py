@@ -23,7 +23,7 @@ class Message(db.Model):
     direction: Mapped[MessageDirection] = mapped_column(
         Enum(MessageDirection, name="message_direction"), nullable=False
     )
-    donor_name: Mapped[str] = mapped_column(String(20), nullable=False)
+    donor_name: Mapped[str] = mapped_column(String(100), nullable=False)
     original_text: Mapped[str] = mapped_column(Text, nullable=False)
     original_language: Mapped[str] = mapped_column(String(15), nullable=False)
 
