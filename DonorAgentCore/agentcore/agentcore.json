@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.agentcore.aws.dev/v1/agentcore.json",
+  "name": "DonorAgentCore",
+  "version": 1,
+  "managedBy": "CDK",
+  "tags": {
+    "agentcore:created-by": "agentcore-cli",
+    "agentcore:project-name": "DonorAgentCore"
+  },
+  "runtimes": [
+    {
+      "name": "DonorAgent",
+      "build": "CodeZip",
+      "entrypoint": "main.py",
+      "codeLocation": "app/DonorAgent/",
+      "runtimeVersion": "PYTHON_3_14",
+      "networkMode": "PUBLIC",
+      "protocol": "HTTP",
+      "envVars": [
+        { "name": "KB_ID",            "value": "your-kb-id" },
+        { "name": "BEDROCK_MODEL_ID", "value": "deepseek.v3.2" },
+        { "name": "AWS_REGION",       "value": "us-east-1" },
+        { "name": "LOG_LEVEL",        "value": "INFO" }
+      ],
+      "additionalPolicies": [
+       "arn:aws:iam::397345411365:policy/DonorAgentRuntimeAccess"
+      ]
+    }
+  ],
+  "memories": [],
+  "knowledgeBases": [],
+  "credentials": [],
+  "evaluators": [],
+  "onlineEvalConfigs": [],
+  "agentCoreGateways": [],
+  "policyEngines": [],
+  "configBundles": [],
+  "abTests": [],
+  "harnesses": [],
+  "datasets": [],
+  "capacityProviders": [],
+  "payments": []
+}

@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "default": {
+      "resources": {
+        "runtimes": {
+          "DonorAgent": {
+            "runtimeId": "DonorAgentCore_DonorAgent-ev7yoEA6UA",
+            "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:397345411365:runtime/DonorAgentCore_DonorAgent-ev7yoEA6UA",
+            "roleArn": "arn:aws:iam::397345411365:role/AgentCore-DonorAgentCore--ApplicationAgentDonorAgen-ZtFYO7wz5Fhk"
+          }
+        },
+        "stackName": "AgentCore-DonorAgentCore-default",
+        "deployHash": "c57d905f2a319185"
+      }
+    }
+  }
+}
