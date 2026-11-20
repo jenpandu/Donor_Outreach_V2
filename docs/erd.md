@@ -24,6 +24,10 @@ erDiagram
         string original_language
         text translated_text
         string target_language
+        string intent
+        string sentiment
+        text draft_reply
+        string status
         datetime created_at
     }
 ```
@@ -56,6 +60,10 @@ the repository.
 | `original_language` | string | not null | For outbound, the campaign's `def_lang` at creation time. For inbound, the language detected by Amazon Comprehend (or a fallback — see README edge cases) |
 | `translated_text` | text | nullable | `null` if no translation was needed (languages matched) or if translation failed (see README edge cases) |
 | `target_language` | string | not null | For outbound, the donor's preferred language. For inbound, the campaign's `def_lang` |
+| `intent` | string(20) | nullable | v2, inbound only: `pledge` \| `question` \| `unsubscribe` \| `complaint` \| `thanks`, from the triage agent. `null` if the agent was skipped or failed |
+| `sentiment` | string(20) | nullable | v2, inbound only: from the triage agent |
+| `draft_reply` | text | nullable | v2, inbound only: the agent's draft, in the donor's language. Kept unchanged even if staff edit the reply on approval |
+| `status` | string(20) | nullable | v2, inbound only: `pending_review` \| `approved` \| `rejected`. `null` for outbound and pre-v2 rows. Set to `approved` by `POST /messages/<id>/approve` |
 | `created_at` | timestamp with time zone | server-generated default (`now()`) | |
 
 ## Relationships

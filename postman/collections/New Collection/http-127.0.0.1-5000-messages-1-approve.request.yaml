@@ -1,0 +1,12 @@
+$kind: http-request
+name: http://127.0.0.1:5000/messages/1/approve
+description: "Approve the reply to inbound message 1. Remove reply_text to send the agent's draft as-is."
+url: http://127.0.0.1:5000/messages/1/approve
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "reply_text": "¡Gracias, Carlos! Le enviaremos su recibo por correo electrónico esta semana."
+    }
+order: 3553776461463920

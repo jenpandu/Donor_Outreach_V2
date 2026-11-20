@@ -1,0 +1,1101 @@
+{
+  "info": {
+    "name": "Donor Outreach v2 - Demo",
+    "description": "Flask -> AgentCore Runtime (LangGraph triage agent) -> staff review -> AgentCore Memory. Run folder 1 top to bottom.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5000"
+    },
+    {
+      "key": "campaign_id",
+      "value": ""
+    },
+    {
+      "key": "approve_id",
+      "value": ""
+    },
+    {
+      "key": "reject_id",
+      "value": ""
+    },
+    {
+      "key": "reply_id",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Demo (run top to bottom)",
+      "description": "Happy path. IDs are saved to collection variables automatically, so just click Send on each request in order. The two inbound requests call AgentCore and take ~10-15 s each.",
+      "item": [
+        {
+          "name": "0. Pre-flight: API + DB ready",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ready",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ready"
+              ]
+            },
+            "description": "Run before the demo starts."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"API is up and DB reachable\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1. Create campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/campaigns",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "campaigns"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Spring Drive Demo\",\n  \"goal_amt\": 5000,\n  \"description\": \"Live demo: AgentCore triage + memory\",\n  \"def_lang\": \"en\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/campaigns",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Spring Drive Demo\",\n  \"goal_amt\": 5000,\n  \"description\": \"Live demo: AgentCore triage + memory\",\n  \"def_lang\": \"en\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "CREATED",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 37,\n  \"name\": \"Spring Drive Demo\",\n  \"goal_amt\": 5000.0,\n  \"description\": \"Live demo: AgentCore triage + memory\",\n  \"def_lang\": \"en\",\n  \"created_at\": \"2026-11-20T14:02:11.482913Z\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Campaign created\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"campaign_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. Inbound: Spanish receipt question (AgentCore)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages/inbound",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "campaigns",
+                "{{campaign_id}}",
+                "messages",
+                "inbound"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"donor_name\": \"Carlos Mendez\",\n  \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Flask calls the LangGraph agent on AgentCore Runtime: detect language -> translate -> classify -> Knowledge Base -> draft reply in Spanish."
+          },
+          "response": [
+            {
+              "name": "201 Agent drafted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages/inbound",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns",
+                    "{{campaign_id}}",
+                    "messages",
+                    "inbound"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donor_name\": \"Carlos Mendez\",\n  \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Flask calls the LangGraph agent on AgentCore Runtime: detect language -> translate -> classify -> Knowledge Base -> draft reply in Spanish."
+              },
+              "status": "CREATED",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 101,\n  \"campaign_id\": 37,\n  \"direction\": \"inbound\",\n  \"donor_name\": \"Carlos Mendez\",\n  \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\",\n  \"original_language\": \"es\",\n  \"translated_text\": \"Can you send me my receipt by email, please?\",\n  \"target_language\": \"en\",\n  \"intent\": \"question\",\n  \"sentiment\": \"neutral\",\n  \"draft_reply\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n  \"status\": \"pending_review\",\n  \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n}"
+            },
+            {
+              "name": "201 Agent unavailable (v1 fallback)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages/inbound",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns",
+                    "{{campaign_id}}",
+                    "messages",
+                    "inbound"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donor_name\": \"Carlos Mendez\",\n  \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Flask calls the LangGraph agent on AgentCore Runtime: detect language -> translate -> classify -> Knowledge Base -> draft reply in Spanish."
+              },
+              "status": "CREATED",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 101,\n  \"campaign_id\": 37,\n  \"direction\": \"inbound\",\n  \"donor_name\": \"Carlos Mendez\",\n  \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\",\n  \"original_language\": \"es\",\n  \"translated_text\": \"Can you send me my receipt by email, please?\",\n  \"target_language\": \"en\",\n  \"intent\": null,\n  \"sentiment\": null,\n  \"draft_reply\": null,\n  \"status\": \"pending_review\",\n  \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const m = pm.response.json();",
+                  "pm.test(\"Message saved\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"AgentCore classified it (intent: \" + m.intent + \")\", () => pm.expect(m.intent).to.not.be.null);",
+                  "pm.test(\"AgentCore drafted a reply\", () => pm.expect(m.draft_reply).to.be.a(\"string\"));",
+                  "pm.test(\"Waiting for staff review\", () => pm.expect(m.status).to.eql(\"pending_review\"));",
+                  "pm.collectionVariables.set(\"approve_id\", m.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. Inbound: English thank-you (AgentCore)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages/inbound",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "campaigns",
+                "{{campaign_id}}",
+                "messages",
+                "inbound"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"donor_name\": \"Jane Doe\",\n  \"original_text\": \"Thank you so much for everything!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "'thanks' intent: the agent skips the Knowledge Base lookup. We'll reject this draft to show it never reaches Memory."
+          },
+          "response": [
+            {
+              "name": "201 Agent drafted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages/inbound",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns",
+                    "{{campaign_id}}",
+                    "messages",
+                    "inbound"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"donor_name\": \"Jane Doe\",\n  \"original_text\": \"Thank you so much for everything!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "'thanks' intent: the agent skips the Knowledge Base lookup. We'll reject this draft to show it never reaches Memory."
+              },
+              "status": "CREATED",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 102,\n  \"campaign_id\": 37,\n  \"direction\": \"inbound\",\n  \"donor_name\": \"Jane Doe\",\n  \"original_text\": \"Thank you so much for everything!\",\n  \"original_language\": \"en\",\n  \"translated_text\": \"Thank you so much for everything!\",\n  \"target_language\": \"en\",\n  \"intent\": \"thanks\",\n  \"sentiment\": \"positive\",\n  \"draft_reply\": \"Dear Jane,\\n\\nThank you for your kind words. Your support means a great deal to us.\",\n  \"status\": \"pending_review\",\n  \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const m = pm.response.json();",
+                  "pm.test(\"Message saved\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"AgentCore classified it (intent: \" + m.intent + \")\", () => pm.expect(m.intent).to.not.be.null);",
+                  "pm.collectionVariables.set(\"reject_id\", m.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. Review queue (2 waiting)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns/{{campaign_id}}/review-queue",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "campaigns",
+                "{{campaign_id}}",
+                "review-queue"
+              ]
+            },
+            "description": "What staff see: inbound messages with the agent's intent, sentiment and draft."
+          },
+          "response": [
+            {
+              "name": "200 Two pending",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/campaigns/{{campaign_id}}/review-queue",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns",
+                    "{{campaign_id}}",
+                    "review-queue"
+                  ]
+                },
+                "description": "What staff see: inbound messages with the agent's intent, sentiment and draft."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 2,\n  \"items\": [\n    {\n      \"id\": 101,\n      \"campaign_id\": 37,\n      \"direction\": \"inbound\",\n      \"donor_name\": \"Carlos Mendez\",\n      \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\",\n      \"original_language\": \"es\",\n      \"translated_text\": \"Can you send me my receipt by email, please?\",\n      \"target_language\": \"en\",\n      \"intent\": \"question\",\n      \"sentiment\": \"neutral\",\n      \"draft_reply\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n      \"status\": \"pending_review\",\n      \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n    },\n    {\n      \"id\": 102,\n      \"campaign_id\": 37,\n      \"direction\": \"inbound\",\n      \"donor_name\": \"Jane Doe\",\n      \"original_text\": \"Thank you so much for everything!\",\n      \"original_language\": \"en\",\n      \"translated_text\": \"Thank you so much for everything!\",\n      \"target_language\": \"en\",\n      \"intent\": \"thanks\",\n      \"sentiment\": \"positive\",\n      \"draft_reply\": \"Dear Jane,\\n\\nThank you for your kind words. Your support means a great deal to us.\",\n      \"status\": \"pending_review\",\n      \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n    }\n  ]\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Both messages are waiting for review\", () => pm.expect(pm.response.json().count).to.eql(2));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5. Approve Carlos's draft as-is -> Memory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/messages/{{approve_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "{{approve_id}}",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Saves the reply as an outbound message, marks the inbound approved, and writes the exchange to AgentCore Memory. To edit, send {\"reply_text\": \"...\"} instead."
+          },
+          "response": [
+            {
+              "name": "201 Approved",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/messages/{{approve_id}}/approve",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "{{approve_id}}",
+                    "approve"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Saves the reply as an outbound message, marks the inbound approved, and writes the exchange to AgentCore Memory. To edit, send {\"reply_text\": \"...\"} instead."
+              },
+              "status": "CREATED",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"inbound\": {\n    \"id\": 101,\n    \"campaign_id\": 37,\n    \"direction\": \"inbound\",\n    \"donor_name\": \"Carlos Mendez\",\n    \"original_text\": \"¿Me pueden enviar mi recibo por correo electrónico, por favor?\",\n    \"original_language\": \"es\",\n    \"translated_text\": \"Can you send me my receipt by email, please?\",\n    \"target_language\": \"en\",\n    \"intent\": \"question\",\n    \"sentiment\": \"neutral\",\n    \"draft_reply\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n    \"status\": \"approved\",\n    \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n  },\n  \"reply\": {\n    \"id\": 103,\n    \"campaign_id\": 37,\n    \"direction\": \"outbound\",\n    \"donor_name\": \"Carlos Mendez\",\n    \"original_text\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n    \"original_language\": \"es\",\n    \"translated_text\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n    \"target_language\": \"es\",\n    \"intent\": null,\n    \"sentiment\": null,\n    \"draft_reply\": null,\n    \"status\": null,\n    \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n  },\n  \"memory_saved\": true\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const r = pm.response.json();",
+                  "pm.test(\"Approved\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Reply saved as outbound\", () => pm.expect(r.reply.direction).to.eql(\"outbound\"));",
+                  "pm.test(\"Exchange written to AgentCore Memory\", () => pm.expect(r.memory_saved).to.eql(true));",
+                  "pm.collectionVariables.set(\"reply_id\", r.reply.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6. Reject Jane's draft (no Memory write)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/messages/{{reject_id}}/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "{{reject_id}}",
+                "reject"
+              ]
+            },
+            "description": "Nothing is sent and nothing is written to Memory, so a bad draft never becomes a 'fact' about the donor."
+          },
+          "response": [
+            {
+              "name": "200 Rejected",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/messages/{{reject_id}}/reject",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "{{reject_id}}",
+                    "reject"
+                  ]
+                },
+                "description": "Nothing is sent and nothing is written to Memory, so a bad draft never becomes a 'fact' about the donor."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 102,\n  \"campaign_id\": 37,\n  \"direction\": \"inbound\",\n  \"donor_name\": \"Jane Doe\",\n  \"original_text\": \"Thank you so much for everything!\",\n  \"original_language\": \"en\",\n  \"translated_text\": \"Thank you so much for everything!\",\n  \"target_language\": \"en\",\n  \"intent\": \"thanks\",\n  \"sentiment\": \"positive\",\n  \"draft_reply\": \"Dear Jane,\\n\\nThank you for your kind words. Your support means a great deal to us.\",\n  \"status\": \"rejected\",\n  \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Rejected\", () => pm.expect(pm.response.json().status).to.eql(\"rejected\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7. Review queue (now empty)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns/{{campaign_id}}/review-queue",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "campaigns",
+                "{{campaign_id}}",
+                "review-queue"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 Empty",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/campaigns/{{campaign_id}}/review-queue",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns",
+                    "{{campaign_id}}",
+                    "review-queue"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 0,\n  \"items\": []\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Queue is empty\", () => pm.expect(pm.response.json().count).to.eql(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "8. Sent replies (outbound)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages?direction=outbound",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "campaigns",
+                "{{campaign_id}}",
+                "messages"
+              ],
+              "query": [
+                {
+                  "key": "direction",
+                  "value": "outbound"
+                }
+              ]
+            },
+            "description": "Next: run  python DonorAgentCore/scripts/check_memory.py \"Carlos Mendez\" <campaign_id>  about a minute after step 5 to show what Memory learned."
+          },
+          "response": [
+            {
+              "name": "200 One reply",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/campaigns/{{campaign_id}}/messages?direction=outbound",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "campaigns",
+                    "{{campaign_id}}",
+                    "messages"
+                  ],
+                  "query": [
+                    {
+                      "key": "direction",
+                      "value": "outbound"
+                    }
+                  ]
+                },
+                "description": "Next: run  python DonorAgentCore/scripts/check_memory.py \"Carlos Mendez\" <campaign_id>  about a minute after step 5 to show what Memory learned."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 1,\n  \"items\": [\n    {\n      \"id\": 103,\n      \"campaign_id\": 37,\n      \"direction\": \"outbound\",\n      \"donor_name\": \"Carlos Mendez\",\n      \"original_text\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n      \"original_language\": \"es\",\n      \"translated_text\": \"Estimado Carlos Mendez,\\n\\nGracias por su mensaje. Un miembro de nuestro equipo revisará su solicitud de recibo y se comunicará con usted por correo electrónico a la mayor brevedad.\\n\\nLanternwood Reading Alliance\",\n      \"target_language\": \"es\",\n      \"intent\": null,\n      \"sentiment\": null,\n      \"draft_reply\": null,\n      \"status\": null,\n      \"created_at\": \"2026-11-20T14:02:38.901245Z\"\n    }\n  ]\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"One reply was sent\", () => pm.expect(pm.response.json().count).to.eql(1));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Guardrails (optional, run after Demo)",
+      "description": "Shows the endpoint refuses unsafe actions. Uses the IDs saved by the Demo folder.",
+      "item": [
+        {
+          "name": "Approve twice -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/messages/{{approve_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "{{approve_id}}",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/messages/{{approve_id}}/approve",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "{{approve_id}}",
+                    "approve"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "CONFLICT",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"conflict\",\n  \"detail\": \"Message 101 is already approved\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"409 Conflict\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reject an approved message -> 409",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/messages/{{approve_id}}/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "{{approve_id}}",
+                "reject"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/messages/{{approve_id}}/reject",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "{{approve_id}}",
+                    "reject"
+                  ]
+                }
+              },
+              "status": "CONFLICT",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"conflict\",\n  \"detail\": \"Message 101 is already approved\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"409 Conflict\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Approve an outbound message -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/messages/{{reply_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "{{reply_id}}",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "422",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/messages/{{reply_id}}/approve",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "{{reply_id}}",
+                    "approve"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "UNPROCESSABLE ENTITY",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_failed\",\n  \"detail\": \"Only inbound messages can be approved\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"422 Validation failed\", () => pm.response.to.have.status(422));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Approve with empty reply_text -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/messages/{{reject_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "{{reject_id}}",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reply_text\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"422 Validation failed\", () => pm.response.to.have.status(422));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unknown message -> 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/messages/999999/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "messages",
+                "999999",
+                "approve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "404",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/messages/999999/approve",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "messages",
+                    "999999",
+                    "approve"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "NOT FOUND",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"not_found\",\n  \"detail\": \"Message 999999 not found\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"404 Not found\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -20,6 +20,8 @@ class AppSettings(BaseSettings):
     kb_num_results: int = 4
     kb_min_score: float = 0.4
 
+    agentcore_memory_id: str | None = None    # reads AGENTCORE_MEMORY_ID; unset = memory off
+
 @lru_cache
 def get_settings() -> AppSettings:
     return AppSettings()

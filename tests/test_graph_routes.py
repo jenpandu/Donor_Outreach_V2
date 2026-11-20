@@ -51,6 +51,19 @@ def test_other_intents_hit_kb(wire, intent):
     assert len(kb.calls) == 1
 
 
+def test_thanks_still_loads_memory(wire, fake_memory):
+    wire("thanks")
+    run("Gracias!")
+    assert len(fake_memory.calls) == 2          # facts + preferences
+
+
+@pytest.mark.parametrize("intent", ["question", "pledge", "complaint", "unsubscribe"])
+def test_other_intents_load_memory(wire, fake_memory, intent):
+    wire(intent)
+    run()
+    assert len(fake_memory.calls) == 2
+
+
 def test_kb_context_reaches_draft_prompt(wire):
     _, drafter = wire("question")
     out = run()

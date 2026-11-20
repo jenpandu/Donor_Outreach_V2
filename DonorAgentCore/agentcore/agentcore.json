@@ -17,10 +17,11 @@
       "networkMode": "PUBLIC",
       "protocol": "HTTP",
       "envVars": [
-        { "name": "KB_ID",            "value": "your-kb-id" },
+        { "name": "KB_ID",            "value": "3ZKP0J1OEI" },
         { "name": "BEDROCK_MODEL_ID", "value": "deepseek.v3.2" },
         { "name": "AWS_REGION",       "value": "us-east-1" },
-        { "name": "LOG_LEVEL",        "value": "INFO" }
+        { "name": "LOG_LEVEL",        "value": "INFO" },
+        { "name": "AGENTCORE_MEMORY_ID",            "value": "DonorOutreachMemory-0fyGfL7wJG" }
       ],
       "additionalPolicies": [
        "arn:aws:iam::397345411365:policy/DonorAgentRuntimeAccess"

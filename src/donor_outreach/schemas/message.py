@@ -17,6 +17,12 @@ class MessageUpdate(BaseModel):
     original_text: str = Field(min_length=1)
 
 
+class MessageApprove(BaseModel):
+    """Staff approval. Omit reply_text to send the agent's draft as-is."""
+
+    reply_text: str | None = Field(default=None, min_length=1)
+
+
 class MessageRead(BaseModel):
     """Shape returned to the client when reading a message."""
 
@@ -28,6 +34,18 @@ class MessageRead(BaseModel):
     original_language: str
     translated_text: str | None
     target_language: str
+    intent: str | None = None
+    sentiment: str | None = None
+    draft_reply: str | None = None
+    status: Literal["pending_review", "approved", "rejected"] | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class ApproveResult(BaseModel):
+    """Response for POST /messages/<id>/approve."""
+
+    inbound: MessageRead
+    reply: MessageRead
+    memory_saved: bool

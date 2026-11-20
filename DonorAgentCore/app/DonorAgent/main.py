@@ -8,7 +8,7 @@ app = BedrockAgentCoreApp()
 log = app.logger
 
 OUT_KEYS = ("detected_lang", "confidence", "lang_source", "translation",
-            "intent", "sentiment", "draft_reply")
+            "intent", "sentiment", "donor_memory", "draft_reply")
 
 @app.entrypoint
 async def invoke(payload, context):
@@ -19,6 +19,7 @@ async def invoke(payload, context):
             "text": payload["text"],
             "campaign_def_lang": payload["campaign_def_lang"],
             "donor_name": payload.get("donor_name", ""),
+            "donor_id": payload.get("donor_id"),
         })
         return {k: state.get(k) for k in OUT_KEYS} | {"error": None}
     except Exception as e:

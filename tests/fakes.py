@@ -59,3 +59,31 @@ class FakeLLM:
     def invoke(self, messages, *args, **kwargs):
         self.calls.append(messages)
         return self.response
+
+
+def memory_record(text):
+    """One item shaped like a MemoryClient.retrieve_memories result."""
+    return {"content": {"text": text}}
+
+
+class FakeMemory:
+    """Replaces donor_memory._client (bedrock_agentcore MemoryClient).
+
+    records maps a namespace (e.g. "/donors/donor-42/facts/") to its records.
+    """
+
+    def __init__(self, records=None, error=None):
+        self.records = records or {}
+        self.error = error
+        self.calls = []
+
+    def retrieve_memories(self, **kwargs):
+        self.calls.append(kwargs)
+        if self.error:
+            raise self.error
+        return self.records.get(kwargs["namespace"], [])
+
+    def create_event(self, **kwargs):
+        self.calls.append(kwargs)
+        if self.error:
+            raise self.error

@@ -94,6 +94,9 @@ is always preserved alongside any translation.
 | `GET` | `/messages/<id>` | Get one message |
 | `PUT` | `/messages/<id>` | Correct a message's original text (re-triggers translation — see below) |
 | `DELETE` | `/messages/<id>` | Delete a message |
+| `POST` | `/messages/<id>/approve` | Approve the reply to an inbound message. Optional body `{"reply_text": "..."}` replaces the agent's draft. Saves the reply as an outbound message, marks the inbound one `approved`, and writes the exchange to AgentCore Memory (`memory_saved` in the response; a Memory failure never blocks approval). `409` if already approved, `422` if outbound or there's no draft and no `reply_text` |
+| `POST` | `/messages/<id>/reject` | Discard the agent's draft: marks the inbound message `rejected`. Sends nothing and writes nothing to Memory. `409` if already approved/rejected. A rejected message can still be approved later with a hand-written `reply_text` |
+| `GET` | `/campaigns/<id>/review-queue` | Inbound messages with `status=pending_review` (oldest first), including the agent's `intent`, `sentiment` and `draft_reply` |
 | `GET` | `/live` | Liveness check |
 | `GET` | `/ready` | Readiness check (verifies the database is reachable; does *not* check Comprehend/Translate — see below) |
 

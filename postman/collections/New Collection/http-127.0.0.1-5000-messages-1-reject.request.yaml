@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://127.0.0.1:5000/messages/1/reject
+description: "Discard the agent's draft. Nothing is sent and nothing is written to Memory."
+url: http://127.0.0.1:5000/messages/1/reject
+method: POST
+order: 3553776461463922

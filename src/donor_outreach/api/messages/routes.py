@@ -46,6 +46,23 @@ def update_message_route(message_id: int):
 
 
 
+@messages_bp.post("/messages/<int:message_id>/approve")
+def approve_message_route(message_id: int):
+    body = request.get_json(silent=True) or {}
+    result = store.approve_message(message_id, body)
+    return single_envelope(result), 201
+
+
+@messages_bp.post("/messages/<int:message_id>/reject")
+def reject_message_route(message_id: int):
+    return single_envelope(store.reject_message(message_id))
+
+
+@messages_bp.get("/campaigns/<int:campaign_id>/review-queue")
+def get_review_queue_route(campaign_id: int):
+    return list_envelope(store.get_review_queue(campaign_id))
+
+
 @messages_bp.delete("/messages/<int:message_id>")
 def delete_message_route(message_id: int):
     store.delete_message(message_id)

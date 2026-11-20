@@ -18,9 +18,12 @@ services:
     build: .
     ports:
       - "5000:5000"
+    # Agent/Memory settings (AGENT_ENABLED, AGENT_RUNTIME_ARN, AGENTCORE_MEMORY_ID, ...).
+    # Values under `environment:` below override .env, so DATABASE_URL still points at the db container.
+    env_file: .env
     environment:
       DATABASE_URL: postgresql+psycopg://postgres:paint@db:5432/donor_outreach
-      AWS_PROFILE: donor_outreach
+      AWS_PROFILE: donor-outreach
       AWS_REGION: us-east-1
     volumes:
       - ~/.aws:/root/.aws:ro

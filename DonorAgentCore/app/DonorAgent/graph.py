@@ -1,5 +1,6 @@
 from langgraph.graph import StateGraph, START, END
-from nodes import detect_language, translate_message, classify_message, retrieve_kb, draft_reply
+from nodes import (detect_language, translate_message, classify_message,
+                   retrieve_kb, load_memory, draft_reply)
 from state import AgentState
 
 def build_graph():
@@ -8,16 +9,20 @@ def build_graph():
     g.add_node("translate", translate_message)
     g.add_node("classify", classify_message)
     g.add_node("retrieve_kb", retrieve_kb)
+    g.add_node("load_memory", load_memory)
     g.add_node("draft_reply", draft_reply)
 
     g.add_edge(START, "detect_language")
     g.add_edge("detect_language", "translate")
     g.add_edge("translate", "classify")
+    # "thanks" skips the KB but still loads memory (e.g. to thank in their preferred way)
     g.add_conditional_edges(
-    "classify",
-    lambda s: "draft_reply" if s["intent"] == "thanks" else "retrieve_kb",
+        "classify",
+        lambda s: "load_memory" if s["intent"] == "thanks" else "retrieve_kb",
+        ["load_memory", "retrieve_kb"],
     )
-    g.add_edge("retrieve_kb", "draft_reply")
+    g.add_edge("retrieve_kb", "load_memory")
+    g.add_edge("load_memory", "draft_reply")
     g.add_edge("draft_reply", END)
     return g.compile()
 

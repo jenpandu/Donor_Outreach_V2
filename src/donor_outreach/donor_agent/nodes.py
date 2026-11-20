@@ -6,6 +6,7 @@ from botocore.exceptions import BotoCoreError, ClientError
 from langchain_aws import ChatBedrockConverse
 from langchain_core.messages import SystemMessage, HumanMessage
 from state import AgentState
+import donor_memory
 from prompt import (
     PROMPT,
     SYSTEM_PROMPT,
@@ -112,7 +113,20 @@ def retrieve_kb(state: AgentState) -> dict:
         return {"kb_context": "\n\n---\n\n".join(chunks)}
     except Exception:
         log.exception("KB retrieve failed")
-        return {"kb_context": ""}  
+        return {"kb_context": ""}
+
+
+def load_memory(state: AgentState) -> dict:
+    """Pull long-term facts + preferences for this donor from AgentCore Memory.
+    Uses donor_id when present, else donor_name (messages has no donor ID yet)."""
+    donor = state.get("donor_id") or state.get("donor_name")
+    query = state.get("translation") or state.get("text") or ""
+    try:
+        return {"donor_memory": donor_memory.load_donor_memory(donor, query)}
+    except Exception:
+        log.exception("load_memory failed")
+        return {"donor_memory": ""}
+
 
 def draft_reply(state: AgentState) -> dict:
     lang_code = state.get("detected_lang") or state.get("campaign_def_lang") or "en"
@@ -135,8 +149,8 @@ def draft_reply(state: AgentState) -> dict:
     Org policy:
     {state.get('kb_context') or '(none)'}
 
-    Prior conversation with this donor:
-    {state.get('donor_history') or '(none)'}
+    What we know about this donor (from past approved replies):
+    {state.get('donor_memory') or '(none)'}
 
     Task: {guidance}"""
 

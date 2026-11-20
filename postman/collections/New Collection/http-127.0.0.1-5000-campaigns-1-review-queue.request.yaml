@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://127.0.0.1:5000/campaigns/1/review-queue
+description: "Inbound messages waiting for staff review, with the agent's draft."
+url: http://127.0.0.1:5000/campaigns/1/review-queue
+method: GET
+order: 3553776461463921
