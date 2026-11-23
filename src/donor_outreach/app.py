@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from flask_migrate import Migrate
 from donor_outreach import db_models
 from donor_outreach.config import get_settings
@@ -26,7 +27,9 @@ def create_app() -> Flask:
     configure_logging(settings.log_level)
     app = Flask(__name__)
 
-
+    # Let the React frontend (a different origin, e.g. localhost:5173) call the API.
+    # Only the listed origins are allowed, not "*".
+    CORS(app, origins=settings.cors_origin_list)
 
     app.config["LOG_LEVEL"] = settings.log_level
     # establishing db connection

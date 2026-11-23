@@ -27,6 +27,13 @@ class AppSettings(BaseSettings):
     agent_runtime_arn: str | None = None      # reads AGENT_RUNTIME_ARN
     agent_timeout_s: int = 60                 # reads AGENT_TIMEOUT_S
 
+    # Browser origins allowed to call the API (the React dev server). Comma-separated.
+    cors_origins: str = "http://localhost:5173"   # reads CORS_ORIGINS
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+
 @lru_cache
 def get_settings() -> AppSettings:
     return AppSettings()

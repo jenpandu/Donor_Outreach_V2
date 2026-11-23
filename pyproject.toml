@@ -21,6 +21,7 @@ dependencies = [
     "langchain-aws>=0.2",   # ChatBedrockConverse
     "langchain-core>=0.3",  # SystemMessage, HumanMessage
     "langgraph>=0.2", 
+    "flask-cors>=4.0",
 ]
 
 [project.optional-dependencies]
